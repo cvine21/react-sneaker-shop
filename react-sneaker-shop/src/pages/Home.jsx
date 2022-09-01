@@ -5,7 +5,7 @@ function Home({
 	searchValue,
 	setSearchValue,
 	onChangeSearchInput,
-	onAddToFavorite,
+	onAddToFavourite,
 	onAddToCart,
 }) {
 	return (
@@ -40,7 +40,7 @@ function Home({
 					.map((item, index) => (
 						<Card
 							key={index}
-							onFavorite={(obj) => onAddToFavorite(obj)}
+							onFavourite={(obj) => onAddToFavourite(obj)}
 							onPlus={(obj) => onAddToCart(obj)}
 							{...item}
 						/>

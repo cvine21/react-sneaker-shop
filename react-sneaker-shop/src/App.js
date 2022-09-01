@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import axios from "axios";
-import Card from "./components/Card";
 import Header from "./components/Header";
 import Drawer from "./components/Drawer";
 import Home from "./pages/Home";
+import Favourites from "./pages/Favourites";
 
 function App() {
 	const [items, setItems] = useState([]);
@@ -13,6 +13,7 @@ function App() {
 	const [searchValue, setSearchValue] = useState("");
 	const [cartOpened, setCartOpened] = useState(false);
 
+	/* Отрендерить один раз содержимое БД */
 	useEffect(() => {
 		axios
 			.get("https://630c890c53a833c5342de89a.mockapi.io/items")
@@ -20,23 +21,37 @@ function App() {
 		axios
 			.get("https://630c890c53a833c5342de89a.mockapi.io/cart")
 			.then((res) => setCartItems(res.data));
+		axios
+			.get("https://630c890c53a833c5342de89a.mockapi.io/favourites")
+			.then((res) => setFavourites(res.data));
 	}, []);
 
+	/* При клике на плюсик на карточке добавить в корзину */
 	const onClickAddToCart = (obj) => {
 		axios.post("https://630c890c53a833c5342de89a.mockapi.io/cart", obj);
 		setCartItems((prev) => [...prev, obj]);
 	};
 
+	/* При клике на крестик на карточке удалить из корзины */
 	const onRemoveItem = (id) => {
 		axios.delete(`https://630c890c53a833c5342de89a.mockapi.io/cart/${id}`);
 		setCartItems((prev) => prev.filter((item) => item.id !== id));
 	};
 
+	/* При клике на сердце добавить предмет в закладки / удалить из закладок */
 	const onAddToFavourite = (obj) => {
-		axios.post("https://630c890c53a833c5342de89a.mockapi.io/favourites", obj);
-		setFavourites((prev) => [...prev, obj]);
+		if (favourites.find((item) => item.id === obj.id)) {
+			axios.delete(
+				`https://630c890c53a833c5342de89a.mockapi.io/favourites/${obj.id}`
+			);
+			setFavourites((prev) => prev.filter((item) => item.id !== obj.id));
+		} else {
+			axios.post("https://630c890c53a833c5342de89a.mockapi.io/favourites", obj);
+			setFavourites((prev) => [...prev, obj]);
+		}
 	};
 
+	/* Применить поиск при наборе текста в поле поиска */
 	const onChangeSearchInput = (event) => setSearchValue(event.target.value);
 
 	return (
@@ -49,17 +64,30 @@ function App() {
 				/>
 			)}
 			<Header onClickCart={() => setCartOpened(true)} />
-
-			<Route path="/" exact>
-				<Home
-					searchValue={searchValue}
-					setSearchValue={setSearchValue}
-					onChangeSearchInput={onChangeSearchInput}
-					items={items}
-					onAddToFavourite={onAddToFavourite}
-					onClickAddToCart={onClickAddToCart}
+			<Routes>
+				<Route
+					path="/"
+					element={
+						<Home
+							searchValue={searchValue}
+							setSearchValue={setSearchValue}
+							onChangeSearchInput={onChangeSearchInput}
+							items={items}
+							onAddToFavourite={onAddToFavourite}
+							onClickAddToCart={onClickAddToCart}
+						/>
+					}
 				/>
-			</Route>
+				<Route
+					path="/favourites"
+					element={
+						<Favourites
+							items={favourites}
+							onAddToFavourite={onAddToFavourite}
+						/>
+					}
+				/>
+			</Routes>
 		</div>
 	);
 }
