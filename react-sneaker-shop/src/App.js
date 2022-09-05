@@ -15,27 +15,39 @@ function App() {
 
 	/* Отрендерить один раз содержимое БД */
 	useEffect(() => {
-		axios
-			.get("https://630c890c53a833c5342de89a.mockapi.io/items")
-			.then((res) => setItems(res.data));
-		axios
-			.get("https://630c890c53a833c5342de89a.mockapi.io/cart")
-			.then((res) => setCartItems(res.data));
-		axios
-			.get("https://630c890c53a833c5342de89a.mockapi.io/favourites")
-			.then((res) => setFavourites(res.data));
-	}, []);
+		async function fetchData() {
+			const itemsResponse = await axios
+				.get("https://630c890c53a833c5342de89a.mockapi.io/items")
+			const cartResponse = await axios
+				.get("https://630c890c53a833c5342de89a.mockapi.io/cart")
+			const favouritesResponse = await axios
+				.get("https://630c890c53a833c5342de89a.mockapi.io/favourites")
 
-	/* При клике на плюсик на карточке добавить в корзину */
-	const onAddToCart = (obj) => {
-		axios.post("https://630c890c53a833c5342de89a.mockapi.io/cart", obj);
-		setCartItems((prev) => [...prev, obj]);
-	};
+			setCartItems(cartResponse.data);
+			setFavourites(favouritesResponse.data);
+			setItems(itemsResponse.data);
+		}
+
+		fetchData();
+	}, []);
 
 	/* При клике на крестик на карточке удалить из корзины */
 	const onRemoveItem = (id) => {
 		axios.delete(`https://630c890c53a833c5342de89a.mockapi.io/cart/${id}`);
 		setCartItems((prev) => prev.filter((item) => item.id !== id));
+	};
+
+	/* При клике на плюсик на карточке добавить в корзину */
+	const onAddToCart = (obj) => {
+		if (cartItems.find((item) => Number(item.id) === Number(obj.id))) {
+			axios.delete(
+				`https://630c890c53a833c5342de89a.mockapi.io/cart/${obj.id}`
+			);
+			setCartItems((prev) => prev.filter((item) => Number(item.id) !== Number(obj.id)));
+		} else {
+			axios.post("https://630c890c53a833c5342de89a.mockapi.io/cart", obj);
+			setCartItems((prev) => [...prev, obj]);
+		}
 	};
 
 	/* При клике на сердце добавить предмет в закладки / удалить из закладок */
@@ -77,6 +89,7 @@ function App() {
 					element={
 						<Home
 							items={items}
+							cartItems={cartItems}
 							searchValue={searchValue}
 							setSearchValue={setSearchValue}
 							onChangeSearchInput={onChangeSearchInput}
