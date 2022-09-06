@@ -28,6 +28,7 @@ function App() {
 				"https://630c890c53a833c5342de89a.mockapi.io/favourites"
 			);
 
+<<<<<<< HEAD
 			setIsLoading(false);
 
 			setCartItems(cartResponse.data);
@@ -37,6 +38,13 @@ function App() {
 
 		fetchData();
 	}, []);
+=======
+	/* При клике на плюсик на карточке добавить в корзину */
+	const onAddToCart = (obj) => {
+		axios.post("https://630c890c53a833c5342de89a.mockapi.io/cart", obj);
+		setCartItems((prev) => [...prev, obj]);
+	};
+>>>>>>> e96d7853acc52ccaec064089fb559fd668ef5d64
 
 	/* При клике на крестик на карточке удалить из корзины */
 	const onRemoveItem = id => {
@@ -44,6 +52,7 @@ function App() {
 		setCartItems(prev => prev.filter(item => item.id !== id));
 	};
 
+<<<<<<< HEAD
 	/* При клике на плюсик на карточке добавить в корзину */
 	const onAddToCart = obj => {
 		if (cartItems.find(item => Number(item.id) === Number(obj.id))) {
@@ -67,12 +76,26 @@ function App() {
 					`https://630c890c53a833c5342de89a.mockapi.io/favourites/${obj.id}`
 				);
 				setFavourites(prev => prev.filter(item => item.id !== obj.id));
+=======
+	/* При клике на сердце добавить предмет в закладки / удалить из закладок */
+	const onAddToFavourite = async (obj) => {
+		try {
+			if (favourites.find((item) => item.id === obj.id)) {
+				axios.delete(
+					`https://630c890c53a833c5342de89a.mockapi.io/favourites/${obj.id}`
+				);
+				setFavourites((prev) => prev.filter((item) => item.id !== obj.id));
+>>>>>>> e96d7853acc52ccaec064089fb559fd668ef5d64
 			} else {
 				const { data } = await axios.post(
 					"https://630c890c53a833c5342de89a.mockapi.io/favourites",
 					obj
 				);
+<<<<<<< HEAD
 				setFavourites(prev => [...prev, data]);
+=======
+				setFavourites((prev) => [...prev, data]);
+>>>>>>> e96d7853acc52ccaec064089fb559fd668ef5d64
 			}
 		} catch (error) {
 			alert("Не удалось добавить в закладки");
@@ -83,6 +106,7 @@ function App() {
 	const onChangeSearchInput = event => setSearchValue(event.target.value);
 
 	return (
+<<<<<<< HEAD
 		<AppContext.Provider value={(items, cartItems, favourites)}>
 			<div className="wrapper clear">
 				{cartOpened && (
@@ -116,6 +140,42 @@ function App() {
 				</Routes>
 			</div>
 		</AppContext.Provider>
+=======
+		<div className="wrapper clear">
+			{cartOpened && (
+				<Drawer
+					items={cartItems}
+					onClickClose={() => setCartOpened(false)}
+					onRemove={onRemoveItem}
+				/>
+			)}
+			<Header onClickCart={() => setCartOpened(true)} />
+			<Routes>
+				<Route
+					path="/"
+					element={
+						<Home
+							items={items}
+							searchValue={searchValue}
+							setSearchValue={setSearchValue}
+							onChangeSearchInput={onChangeSearchInput}
+							onAddToFavourite={onAddToFavourite}
+							onAddToCart={onAddToCart}
+						/>
+					}
+				/>
+				<Route
+					path="/favourites"
+					element={
+						<Favourites
+							items={favourites}
+							onAddToFavourite={onAddToFavourite}
+						/>
+					}
+				/>
+			</Routes>
+		</div>
+>>>>>>> e96d7853acc52ccaec064089fb559fd668ef5d64
 	);
 }
 
