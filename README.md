@@ -1,4 +1,35 @@
-# Getting Started with Create React App
+#  👟 Sneaker Shop
+Online sneaker shop created in ReactJS
+
+## Features
+- search by product name
+- add items to cart and favorites
+- making an order
+- navigating through the tabs
+- content manegment via mockAPI databse
+
+## Stack
+- ReactJS + hooks
+- React Router
+- Axios
+- SCSS
+- React Skeleton
+
+## Setup
+1. Clone this repo and go to the cloned folder.
+``` sh
+$> https://github.com/cvine21/react-sneaker-shop.git && cd react-sneaker-shop
+```
+2. Install all the dependencies
+``` sh
+$> npm install
+```
+3. Run the application
+``` sh
+$> npm start
+```
+
+<!-- # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -68,3 +99,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+ -->
