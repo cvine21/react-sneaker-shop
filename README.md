@@ -1,5 +1,5 @@
 #  👟 Sneaker Shop
-Online sneaker shop created in ReactJS
+Online sneaker shop.
 
 ## Features
 - search by product name
@@ -14,6 +14,7 @@ Online sneaker shop created in ReactJS
 - Axios
 - SCSS
 - React Skeleton
+- <a href="https://mockapi.io/">mockAPI</a>
 
 ## Setup
 1. Clone this repo and go to the cloned folder.
