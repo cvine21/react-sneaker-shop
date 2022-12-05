@@ -6,7 +6,7 @@ Online sneaker shop.
 - add items to cart and favorites
 - making an order
 - navigating through the tabs
-- content manegment via mockAPI databse
+- mockAPI server
 
 ## Stack
 - ReactJS
