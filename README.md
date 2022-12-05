@@ -19,7 +19,7 @@ Online sneaker shop.
 ## Setup
 1. Clone this repo and go to the cloned folder.
 ``` sh
-$> https://github.com/cvine21/react-sneaker-shop.git && cd react-sneaker-shop
+$> git clone https://github.com/cvine21/react-sneaker-shop.git && cd react-sneaker-shop
 ```
 2. Install all the dependencies
 ``` sh
