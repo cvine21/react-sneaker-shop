@@ -9,7 +9,7 @@ Online sneaker shop.
 - content manegment via mockAPI databse
 
 ## Stack
-- ReactJS + hooks
+- ReactJS
 - React Router
 - Axios
 - SCSS
